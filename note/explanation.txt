@@ -1,0 +1,286 @@
+------------------------------
+(*)What is server_rendering
+------------------------------
+
+-> loading fast
+-> more logic gose to server, app load faster
+
+
+
+
+
+
+
+
+----------------------
+(*)BABEL
+----------------------
+
+--> Babel is a transpiler(convert 1 lang to another) that helps you to use javascript features of tomorrow in the browser today.
+
+--> Babel convert 1 lang to another at same abstraction level
+
+
+--> Why babel..?
+	
+	- Broswer don't undestand lattest JS feature like es6 etc.. so it convert into es5 so that browser undestand
+
+
+--> Plugins
+
+	- babel-preset : 
+
+
+--> File .babelrc
+	
+	- Also need to have a file .babelrc in your root directory.
+	- This file tell babel how we want our code to transpile
+
+--> Plugins & Presets
+
+	- if we want babel to trabspile specific feature than we can define in "PLUGINS" like arrow fqn, classes etc..
+
+	- presets is collection of babel plugins
+
+
+	(1) @babel/preset-env
+		- it allow us to use latest JS which needed by our target environment
+
+		- Without any configuration, this preset will include all plugins to support modern JavaScript (ES2015, ES2016, etc.)
+
+
+
+	(2) @babel/preset-react 
+		- for React and it supports JSX Syntaxs
+
+
+
+
+
+
+-------------------------
+(*)Webpack
+-------------------------
+
+--> it is a tool which allow us to compile JS modules also knwon as Module Bundler.
+
+--> 1 single file is generated
+
+
+
+
+
+
+---------------------------------------
+(*)Rendering component on server
+---------------------------------------
+
+(1) Loading react component in server memory (import statement)
+(2) Render the component into HTML string	
+(3) Send HTML string to client
+
+
+
+
+
+
+-----------------------------------------
+(*)Rehydrating interactive components
+-----------------------------------------
+--> provide interaction with client site 
+
+
+
+
+
+
+
+
+
+--------------
+(*)BASIC
+--------------
+
+--> Folder
+--> npm init --y
+--> npm i react@16.12.0 react-dom@16.12.0 express@4.17.1 
+
+--> BABEL [JSX to JS]
+--> npm i --save-dev  @babel/core@7.7.7 @babel/node@7.7.7 babel-loader@8.0.6
+
+--> WEBPACK [Create client version of app as single js file]
+--> npm i --save-dev webpack@4.41.5 webpack-cli@3.3.10 webpack-dev-server@3.10.1
+
+
+
+
+
+--> FILE [server/index.js]
+
+const express = require("express");
+
+const app = express();
+
+app.get("/", (_req, res) => {
+  res.send(`<h1>React is amazing</h1>`);
+});
+
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`Server is listing at port ${PORT}`);
+});
+
+
+--> Package.json :     "start" : "node server"
+--> Run : npm start
+--> Browser : localhost:8000
+
+
+
+
+
+
+
+
+
+(*)Babel 
+
+- convert code from 1 language to another
+- take es6, jsx convert into javascript
+
+--> npm i --save-dev @babel/preset-env@7.7.7 @babel/preset-react@7.7.4
+
+
+- .babelrc file
+
+	{
+	  "presets": ["@babel/preset-env", "@babel/preset=react"]
+	}	
+
+
+- package.json
+
+	- "start": "babel-node server"
+
+
+
+
+--> client/client.jsx
+
+import React from "react";
+import ReactDOM from "react-dom";
+
+const client = () => {
+  return <div>This is a React Component</div>;
+};
+
+export default client;
+
+
+
+
+--> public/index.html
+
+
+
+<html>
+    <body>
+        <id id="Container">
+            React code goes here
+        </id>
+    </body>
+</html>
+
+
+
+
+
+
+--> webpack.config.js
+
+
+//webpack : convert jsx file into js
+module.exports = {
+  mode: "development",
+  entry: {
+    client: "./client/client.jsx",
+    //entry point for webpack
+  },
+  output: {
+    filename: "[name].js",
+    //every file named as .js
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
+    //we write import index it will search for both .js and .jsx
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/, //thisfile rules apply to
+        exclude: /(node_modules)/, //stop for compiling node_module
+        use: {
+          //for plug-in to use
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
+      },
+    ],
+  },
+};
+
+
+
+--> package.json
+    "build":"webpack"
+
+
+
+
+--> new terminal
+
+	npm run build [dist folder was created and 1 file which contains js code]
+
+
+
+
+
+
+--> index.js
+
+
+app.use(express.static("dist"));
+//anythig in dist folder served as static file
+
+
+--> run server
+--> browser : localhost:8000/client.js
+	- the code which we see that loaded into html file
+
+
+
+
+
+--> index.js
+
+import { readFileSync } from "fs";
+
+app.get("/", async (_req, res) => 
+{
+  const index = readFileSync(`public/index.html`, "utf8");
+  res.send(index);
+});
+
+
+--> Run : localhost:8000 [output of index.html come]
+
+
+--> now if we want our react app to render 
+
+--> index.html
+
+	<script src="client.js"></script>
+	- client.js which was created by webpack
