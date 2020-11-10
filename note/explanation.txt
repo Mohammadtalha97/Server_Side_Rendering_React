@@ -6,7 +6,13 @@
 -> more logic gose to server, app load faster
 
 
+---------------------------------
+(*) Why we need
+---------------------------------
 
+(1)the end user is using a slow internet connection, especially mobile connection
+(2)the end user is running an underpowered device, for example an older generation mobile device
+(3)improve SEO
 
 
 
@@ -284,3 +290,34 @@ app.get("/", async (_req, res) =>
 
 	<script src="client.js"></script>
 	- client.js which was created by webpack
+
+
+
+
+
+(1) Single Page Application :  
+- The defining characteristic of SPAs is that they don’t require page reloads, 
+  loading data asynchronously so users can do something else while the data loads
+
+
+- walmart.com, Twitter.com did research which confirms that server side rendering need to 
+show the first page as quickly as possible, while other code can be loaded while the
+user browses the page.
+
+
+- As a result, when the user loads the first page he/she won’t see the “loading…” message; 
+they’ll see a functional page, thus having a better user experience (UX) 
+
+- for re-usability of template lodash, underscore.js are libraries which re-use on both server and browser
+
+- we can use isomorphism with react.js
+
+
+
+
+(*)Isomorphism
+
+-> to solve problem like SEO, Better Ux, fast first page load we use isomorphism
+
+-> The isomorphic approach solves these issues by using one set of code (usually JavaScript/Node.js) that renders both on the back end and the front-end, 
+  allowing for better maintainability, indexing by search engines, and user experience

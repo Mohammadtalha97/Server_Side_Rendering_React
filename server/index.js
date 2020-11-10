@@ -1,6 +1,5 @@
 import express from "express";
 import { readFileSync } from "fs";
-import { ppid } from "process";
 import React from "react";
 import { renderToString } from "react-dom/server";
 
@@ -65,7 +64,7 @@ app.get("/vote/:answerId", (req, res) => {
 app.get("/", async (_req, res) => {
   const index = readFileSync(`public/index.html`, "utf8");
   const rendered = renderToString(<App {...data} />);
-  res.send(index.replace("{{rendered}}", rendered));
+  res.send(index.replace("{{root}}", rendered));
 });
 
 const PORT = process.env.PORT || 8000;
