@@ -308,6 +308,9 @@ user browses the page.
 - As a result, when the user loads the first page he/she won’t see the “loading…” message; 
 they’ll see a functional page, thus having a better user experience (UX) 
 
+
+-> Search Console Dashboard > Crawl > Fetch as Google. Enter the page URL or leave it empty for the homepage.
+
 - for re-usability of template lodash, underscore.js are libraries which re-use on both server and browser
 
 - we can use isomorphism with react.js
@@ -321,3 +324,19 @@ they’ll see a functional page, thus having a better user experience (UX)
 
 -> The isomorphic approach solves these issues by using one set of code (usually JavaScript/Node.js) that renders both on the back end and the front-end, 
   allowing for better maintainability, indexing by search engines, and user experience
+
+
+
+
+
+
+
+
+
+--> React Transmit for fetching api data before it render [used in SSR]
+
+
+
+--> hydrate : hydrate elements rendered by ReactDOMServer
+
+https://medium.com/@akakankur81/a-quick-overview-on-react-dom-render-and-hydrate-6d0ec6c1b234

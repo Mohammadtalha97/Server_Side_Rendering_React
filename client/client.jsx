@@ -9,15 +9,12 @@ fetch("http://localhost:8000/data")
   .then((data) => data.json())
   .then((json) => {
     state = json;
-    console.log("Got the state", json);
     render();
   });
 
 const handleVote = (answerId, increment) => {
   state.answers = handlemodify(state.answers, answerId, increment);
-
   fetch(`vote/${answerId}?increment=${increment}`);
-
   render();
 };
 
